@@ -13,6 +13,7 @@
  * `build-essential`
  * `python3-numpy`
  * `python3-opencv`
+ * `python3-matplotlib`
  * `git`
  * `cmake`
  * `bison` (for *cyclonedds*)
@@ -39,13 +40,18 @@
  mkdir -p $BUILD_FOLDER
  export BUILD_FOLDER_CPP=$REPO_FOLDER/buildcpp
  mkdir -p $BUILD_FOLDER_CPP
+ export BUILD_FOLDER_CEREAL=$REPO_FOLDER/buildcereal
+ mkdir -p $BUILD_FOLDER_CEREAL
 
+ cd $BUILD_FOLDER_CEREAL && cmake -DCMAKE_INSTALL_PREFIX=$DDS_INSTALL_PATH -DBUILD_TESTS=OFF $REPO_FOLDER/cereal && make -j2 && make install
  cd $BUILD_FOLDER && cmake -DCMAKE_INSTALL_PREFIX=$DDS_INSTALL_PATH $REPO_FOLDER/cyclonedds && make -j2 && make install
  cd $BUILD_FOLDER_CPP && cmake -DCMAKE_PREFIX_PATH=$DDS_INSTALL_PATH -DCMAKE_INSTALL_PREFIX=$DDS_INSTALL_PATH $REPO_FOLDER/cyclonedds-cxx && make -j2 && make install
 
  # for python binding we build using pip
  CMAKE_PREFIX_PATH=$DDS_INSTALL_PATH pip3 install git+https://github.com/eclipse-cyclonedds/cyclonedds-python
  ```
+ * to build examples (CPP)
+ * to run ...
  * to clean up
  ```
  rm -rf $REPO_FOLDER
