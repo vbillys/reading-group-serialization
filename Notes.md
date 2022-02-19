@@ -4,9 +4,10 @@
  * Basic programming with cpp / python
  * Common standard Libraries: Eigen, OpenCV, PCL
  * CMake build
+ * Git version control
 
 
-### Dependencies (Ubuntu 20.04)
+### Dependencies (Tested on Ubuntu 20.04)
 *Note*: other Ubuntu version may work, just need to pay attention to the versions, for example `libboostX.XX-dev` and `pythonX-* `
  * `libeigen3-dev`
  * `libboost1.71-dev`
@@ -56,14 +57,18 @@ sudo apt install libeigen3-dev libboost1.71-dev libopencv-dev libpcl-dev build-e
  # for python binding we build using pip
  CMAKE_PREFIX_PATH=$DDS_INSTALL_PATH pip3 install git+https://github.com/eclipse-cyclonedds/cyclonedds-python
  ```
- * to build examples (CPP)
+ * to build examples (CPP)  
+   Note: If encounter problem with CMake version, it may happen that the system is using an older version of CMake (i.e. older Ubuntu). You can either try to upgrade it or change the first line of `CMakeLists.txt` - `cmake_minimum_required(VERSION 3.15)` to match the available CMake version.
  ```
- export EXAMPLES=$REPO_FOLDER/examples
+ export EXAMPLES=$REPO_FOLDER/examples && \
+     export BUILD_EXAMPLES=$EXAMPLES/build && \
+     mkdir -p $BUILD_EXAMPLES && \
+     cd $BUILD_EXAMPLES && cmake -DCMAKE_PREFIX_PATH=$DDS_INSTALL_PATH $EXAMPLES/cpp && make -j2 && make install
  ```
  * to run examples  
    Note: The python scripts has `shebang` reference to be executed with `python3` interpreter (the default in Ubuntu20+). If using older interpreter, please update (the first line of the scripts), or run the script with custom interpreter e.g. `python2 <script>`
  ```
-
+ export EXAMPLES=$REPO_FOLDER/examples
  ```
 
  * to clean up
