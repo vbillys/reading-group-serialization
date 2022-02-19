@@ -19,9 +19,10 @@ cv2.waitKey()
 
 output = io.BytesIO()
 np.save(output, img)
-foutput = io.FileIO('data.bin','w')
-np.save(foutput,img)
+foutput = io.FileIO('data.bin', 'w')
+np.save(foutput, img)
+np.savez('data.npz', img=img)
 
 print(f'here is the serialized content (.npy): \n{output.getvalue()}')
-print(f'the image in python is of type: {type(img)} that contains {img.dtype.name}')
-
+print(
+    f'the image in python is of type: {type(img)} that contains {img.dtype.name}')

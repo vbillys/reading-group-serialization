@@ -10,3 +10,6 @@
 [submodule "examples/cpp/libnpy"]
 	path = examples/cpp/libnpy
 	url = https://github.com/llohse/libnpy
+[submodule "examples/cpp/cnpy"]
+	path = examples/cpp/cnpy
+	url = https://github.com/rogersce/cnpy

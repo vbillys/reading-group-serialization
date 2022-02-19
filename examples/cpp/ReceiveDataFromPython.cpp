@@ -1,3 +1,4 @@
+#include "cnpy/cnpy.h"
 #include <boost/program_options.hpp>
 #include <iostream>
 #include <npy.hpp>
@@ -18,27 +19,31 @@ int main(int argc, char **argv) {
   po::notify(vm);
   std::cout << "opening: " << filepath << std::endl;
 
-  std::vector<unsigned long> shape;
-  std::vector<uint8_t> data;
-  bool fortran_order;
-  npy::LoadArrayFromNumpy(filepath, shape, fortran_order, data);
+  cnpy::npz_t npz = cnpy::npz_load(filepath);
+  cnpy::NpyArray npzImageArray = npz["img"];
+  // need to know data type before hand
+  // can be fixed with modifying the cnpy library
+  // the typename is actually stored in the file.
+  auto *data = npzImageArray.data<uint8_t>();
+
   std::cout << "mat shape: ";
-  for (const auto &s : shape) {
+  for (const auto &s : npzImageArray.shape) {
     std::cout << s << ",";
   }
   std::cout << std::endl;
 
-  cv::Mat image(shape[0], shape[1], CV_8UC3, cv::Scalar(0, 0, 0));
+  cv::Mat image(npzImageArray.shape[0], npzImageArray.shape[1], CV_8UC3,
+                cv::Scalar(0, 0, 0));
   // see https://www.geeksforgeeks.org/display-numpy-array-in-fortran-order
   // for the ordering of data
   // by default numpy save in C-order (row-major)
-  for (auto i = 0; i < shape[0]; i++) {
-    for (auto j = 0; j < shape[1]; j++) {
+  for (auto i = 0; i < npzImageArray.shape[0]; i++) {
+    for (auto j = 0; j < npzImageArray.shape[1]; j++) {
       auto &p = image.at<cv::Vec3b>(i, j);
 
-      p[0] = data[i * shape[1] * 3 + j * 3];
-      p[1] = data[i * shape[1] * 3 + j * 3 + 1];
-      p[2] = data[i * shape[1] * 3 + j * 3 + 2];
+      p[0] = data[i * npzImageArray.shape[1] * 3 + j * 3];
+      p[1] = data[i * npzImageArray.shape[1] * 3 + j * 3 + 1];
+      p[2] = data[i * npzImageArray.shape[1] * 3 + j * 3 + 2];
     }
   }
 

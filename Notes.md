@@ -5,6 +5,7 @@
  * Common standard Libraries: Eigen, OpenCV, PCL
  * CMake build
  * Git version control
+ * Linux shell (`bash`)
 
 
 ### Dependencies (Tested on Ubuntu 20.04)
@@ -21,11 +22,12 @@
  * `cmake`
  * `bison` (for *cyclonedds*)
  * `openssl` (for *cyclonedds*)
+ * `open3d` python package (use `pip3 install open3d` to install)
 
 For convinience, we can install all the above using `bash`-single-liner-command:
 ```
 # please make sure this will not overwrite your current work / environment setup
-sudo apt install libeigen3-dev libboost1.71-dev libopencv-dev libpcl-dev build-essential python3-numpy python3-opencv python3-matplotlib git cmake bison openssl
+sudo apt install libeigen3-dev libboost1.71-dev libopencv-dev libpcl-dev build-essential python3-numpy python3-opencv python3-matplotlib git cmake bison openssl && pip3 install open3d
 ```
 
 ### Repos used
