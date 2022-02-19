@@ -7,3 +7,6 @@
 [submodule "cyclonedds-cxx"]
 	path = cyclonedds-cxx
 	url = https://github.com/eclipse-cyclonedds/cyclonedds-cxx
+[submodule "examples/cpp/libnpy"]
+	path = examples/cpp/libnpy
+	url = https://github.com/llohse/libnpy
