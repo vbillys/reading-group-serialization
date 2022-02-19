@@ -8,6 +8,7 @@
 
 ### Dependencies (Ubuntu 20.04)
  * `libeigen3-dev`
+ * `libboost1.71-dev`
  * `libopencv-dev`
  * `libpcl-dev`
  * `build-essential`
@@ -28,30 +29,32 @@
 ### Getting started
  * clone the this repo and its submodule, we assume we start at $HOME
  ```
- cd
+ cd # switch to home dir
  git clone --recurse-submodules https://github.com/vbillys/reading-group-serialization
+ # change REPO_FOLDER if necessary
  export REPO_FOLDER=$HOME/reading-group-serialization
  ```
  * build cyclonedds and its bindings, in `$BUILD_FOLDER`, and put it in `$DDS_INSTALL_PATH` (these locations can be customized)
  ```
- export DDS_INSTALL_PATH=$REPO_FOLDER/install
- mkdir -p $DDS_INSTALL_PATH
- export BUILD_FOLDER=$REPO_FOLDER/build
- mkdir -p $BUILD_FOLDER
- export BUILD_FOLDER_CPP=$REPO_FOLDER/buildcpp
- mkdir -p $BUILD_FOLDER_CPP
- export BUILD_FOLDER_CEREAL=$REPO_FOLDER/buildcereal
- mkdir -p $BUILD_FOLDER_CEREAL
+ export DDS_INSTALL_PATH=$REPO_FOLDER/install && \
+     export BUILD_FOLDER=$REPO_FOLDER/build && \
+     export BUILD_FOLDER_CPP=$REPO_FOLDER/buildcpp && \
+     export BUILD_FOLDER_CEREAL=$REPO_FOLDER/buildcereal && \
+     mkdir -p $DDS_INSTALL_PATH $BUILD_FOLDER $BUILD_FOLDER_CPP $BUILD_FOLDER_CEREAL
 
- cd $BUILD_FOLDER_CEREAL && cmake -DCMAKE_INSTALL_PREFIX=$DDS_INSTALL_PATH -DBUILD_TESTS=OFF $REPO_FOLDER/cereal && make -j2 && make install
- cd $BUILD_FOLDER && cmake -DCMAKE_INSTALL_PREFIX=$DDS_INSTALL_PATH $REPO_FOLDER/cyclonedds && make -j2 && make install
- cd $BUILD_FOLDER_CPP && cmake -DCMAKE_PREFIX_PATH=$DDS_INSTALL_PATH -DCMAKE_INSTALL_PREFIX=$DDS_INSTALL_PATH $REPO_FOLDER/cyclonedds-cxx && make -j2 && make install
+ cd $BUILD_FOLDER_CEREAL && cmake -DCMAKE_INSTALL_PREFIX=$DDS_INSTALL_PATH -DBUILD_TESTS=OFF $REPO_FOLDER/cereal && make -j2 && make install && \
+     cd $BUILD_FOLDER && cmake -DCMAKE_INSTALL_PREFIX=$DDS_INSTALL_PATH $REPO_FOLDER/cyclonedds && make -j2 && make install && \
+     cd $BUILD_FOLDER_CPP && cmake -DCMAKE_PREFIX_PATH=$DDS_INSTALL_PATH -DCMAKE_INSTALL_PREFIX=$DDS_INSTALL_PATH $REPO_FOLDER/cyclonedds-cxx && make -j2 && make install
 
  # for python binding we build using pip
  CMAKE_PREFIX_PATH=$DDS_INSTALL_PATH pip3 install git+https://github.com/eclipse-cyclonedds/cyclonedds-python
  ```
  * to build examples (CPP)
+ ```
+ export EXAMPLES=$REPO_FOLDER/examples
+ ``` 
  * to run ...
+
  * to clean up
  ```
  rm -rf $REPO_FOLDER
