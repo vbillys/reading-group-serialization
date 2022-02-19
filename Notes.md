@@ -7,6 +7,7 @@
 
 
 ### Dependencies (Ubuntu 20.04)
+*Note*: other Ubuntu version may work, just need to pay attention to the versions, for example `libboostX.XX-dev` and `pythonX-* `
  * `libeigen3-dev`
  * `libboost1.71-dev`
  * `libopencv-dev`
@@ -19,6 +20,12 @@
  * `cmake`
  * `bison` (for *cyclonedds*)
  * `openssl` (for *cyclonedds*)
+
+For convinience, we can install all the above using `bash`-single-liner-command:
+```
+# please make sure this will not overwrite your current work / environment setup
+sudo apt install libeigen3-dev libboost1.71-dev libopencv-dev libpcl-dev build-essential python3-numpy python3-opencv python3-matplotlib git cmake bison openssl
+```
 
 ### Repos used
  * [cereal](https://github.com/USCiLab/cereal)
@@ -52,8 +59,12 @@
  * to build examples (CPP)
  ```
  export EXAMPLES=$REPO_FOLDER/examples
- ``` 
- * to run ...
+ ```
+ * to run examples  
+   Note: The python scripts has `shebang` reference to be executed with `python3` interpreter (the default in Ubuntu20+). If using older interpreter, please update (the first line of the scripts), or run the script with custom interpreter e.g. `python2 <script>`
+ ```
+
+ ```
 
  * to clean up
  ```
