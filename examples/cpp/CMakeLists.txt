@@ -26,3 +26,12 @@ target_link_libraries(receive_data_from_python
                       cereal::cereal
                       cnpy)
 # CycloneDDS-CXX::ddscxx)
+
+add_executable(send_data SendData.cpp)
+
+target_link_libraries(send_data
+                      ${PCL_LIBRARIES}
+                      Boost::program_options
+                      ${OpenCV_LIBRARIES}
+                      cereal::cereal
+                      cnpy)
