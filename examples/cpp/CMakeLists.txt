@@ -17,7 +17,7 @@ include_directories(${Eigen3_INCLUDE_DIRS} ${OpenCV_INCLUDE_DIRS} ${PCL_INCLUDE_
 
 add_executable(receive_data_from_python ReceiveDataFromPython.cpp)
 target_link_libraries(receive_data_from_python
-                      # ${PCL_LIBRARIES}
+                      ${PCL_LIBRARIES}
                       Boost::program_options
                       ${OpenCV_LIBRARIES}
                       cereal::cereal
