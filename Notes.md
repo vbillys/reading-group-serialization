@@ -23,11 +23,12 @@
  * `bison` (for *cyclonedds*)
  * `openssl` (for *cyclonedds*)
  * `open3d` python package (use `pip3 install open3d` to install)
+ * `transforms3d` python package (use `pip3 install transfomrs3d` to install)
 
 For convinience, we can install all the above using `bash`-single-liner-command:
 ```
 # please make sure this will not overwrite your current work / environment setup
-sudo apt install libeigen3-dev libboost1.71-dev libopencv-dev libpcl-dev build-essential python3-numpy python3-opencv python3-matplotlib git cmake bison openssl && pip3 install open3d
+sudo apt install libeigen3-dev libboost1.71-dev libopencv-dev libpcl-dev build-essential python3-numpy python3-opencv python3-matplotlib git cmake bison openssl && pip3 install open3d && pip3 install transforms3d
 ```
 
 ### Repos used

@@ -9,8 +9,12 @@ import io
 
 import open3d as o3d
 import argparse
+from transforms3d.affines import compose
+from transforms3d.euler import euler2mat
 
-
+ht_matrix = compose([20, 30, 40], euler2mat(
+    np.pi/2, np.pi/2, np.pi/2), np.ones(3), np.zeros(3))
+print(f'homogeneous transformation matrix:\n{ht_matrix}')
 
 script_path = os.path.dirname(os.path.realpath(__file__))
 image_filepath = script_path + '/../data/car.jpeg'
@@ -24,15 +28,14 @@ cv2.waitKey()
 pcd_filepath = script_path + '/../data/bunny.pcd'
 pcd = o3d.io.read_point_cloud(pcd_filepath)
 pcd_numpy = np.asarray(pcd.points)
-print(np.asarray(pcd.points))
+print(f'points in pcd as array:\n{np.asarray(pcd.points)}')
 o3d.visualization.draw_geometries([pcd])
 
 output = io.BytesIO()
 np.savez(output, img=img, pcd_numpy=pcd_numpy)
 npzoutput = io.FileIO('data.npz', 'w')
-np.savez(npzoutput, img=img, pcd_numpy=pcd_numpy)
+np.savez(npzoutput, img=img, pcd_numpy=pcd_numpy, ht_matrix=ht_matrix)
 
-# print(f'here is the serialized content (.npz): \n{npzoutput.getvalue()}')
 print(
     f'the image in python is of type: {type(img)} that contains {img.dtype.name}')
 
