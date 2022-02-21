@@ -1,0 +1,13 @@
+module ExampleIdlData
+{
+  typedef sequence<octet> BytesArray;
+  struct Msg
+  {
+    @key
+    long id;
+    string message;
+    BytesArray payloadEigen;
+    BytesArray payloadOpenCVImage;
+    BytesArray payloadPCLPointCloud;
+  };
+};

@@ -73,6 +73,13 @@ sudo apt install libeigen3-dev libboost1.71-dev libopencv-dev libpcl-dev build-e
  ```
  export EXAMPLES=$REPO_FOLDER/examples
  ```
+ * to auto-generate idl codes (python and cxx)  
+   Note: These generated files are included in the repo
+ ```
+ export EXAMPLES=$REPO_FOLDER/examples
+ cd $EXAMPLES/python && LD_LIBRARY_PATH=$DDS_INSTALL_PATH/lib $DDS_INSTALL_PATH/bin/idlc -l py ExampleIdlData.idl
+ cd $EXAMPLES/cpp && LD_LIBRARY_PATH=$DDS_INSTALL_PATH/lib $DDS_INSTALL_PATH/bin/idlc -l cxx ExampleIdlData.idl
+ ```
 
  * to clean up
  ```
