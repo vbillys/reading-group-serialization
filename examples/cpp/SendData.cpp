@@ -63,7 +63,7 @@ static inline std::string cvTypeToStr(int type)
 int main(int argc, char** argv)
 {
     // Program options
-    po::options_description desc("Read an image from a 2d matrix from python\n\n"
+    po::options_description desc("Read different data and send to python\n\n"
                                  "Options");
     std::string pcdpath, imgpath;
     desc.add_options()("help,h", "Print this help")(

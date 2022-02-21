@@ -12,7 +12,7 @@ namespace po = boost::program_options;
 int main(int argc, char** argv)
 {
     // Program options
-    po::options_description desc("Read an image from a 2d matrix from python\n\n"
+    po::options_description desc("Read a .npz file containing data types from python\n\n"
                                  "Options");
     std::string filepath;
     desc.add_options()("help,h", "Print this help")(

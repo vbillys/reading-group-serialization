@@ -16,14 +16,37 @@ add_subdirectory(cnpy)
 include_directories(${Eigen3_INCLUDE_DIRS} ${OpenCV_INCLUDE_DIRS} ${PCL_INCLUDE_DIRS} libnpy/include)
 
 add_executable(receive_data_from_python ReceiveDataFromPython.cpp)
-target_link_libraries(receive_data_from_python
+target_link_libraries(receive_data_from_python ${PCL_LIBRARIES} Boost::program_options ${OpenCV_LIBRARIES} cnpy)
+
+add_executable(send_data SendData.cpp)
+target_link_libraries(send_data ${PCL_LIBRARIES} Boost::program_options ${OpenCV_LIBRARIES} cereal::cereal cnpy)
+
+add_executable(send_data_cereal SendDataCereal.cpp)
+target_link_libraries(send_data_cereal ${PCL_LIBRARIES} Boost::program_options ${OpenCV_LIBRARIES} cereal::cereal)
+
+add_executable(recv_data_cereal RecvDataCereal.cpp)
+target_link_libraries(recv_data_cereal ${PCL_LIBRARIES} Boost::program_options ${OpenCV_LIBRARIES} cereal::cereal)
+
+add_executable(send_data_dds_to_python SendDataDDSToPython.cpp ExampleIdlData.cpp)
+target_link_libraries(send_data_dds_to_python
+                      ${PCL_LIBRARIES}
+                      Boost::program_options
+                      ${OpenCV_LIBRARIES}
+                      cnpy
+                      CycloneDDS-CXX::ddscxx)
+
+add_executable(send_data_dds SendDataDDS.cpp ExampleIdlData.cpp)
+target_link_libraries(send_data_dds
                       ${PCL_LIBRARIES}
                       Boost::program_options
                       ${OpenCV_LIBRARIES}
                       cereal::cereal
-                      cnpy)
-# CycloneDDS-CXX::ddscxx)
+                      CycloneDDS-CXX::ddscxx)
 
-add_executable(send_data SendData.cpp)
-
-target_link_libraries(send_data ${PCL_LIBRARIES} Boost::program_options ${OpenCV_LIBRARIES} cereal::cereal cnpy)
+add_executable(recv_data_dds RecvDataDDS.cpp ExampleIdlData.cpp)
+target_link_libraries(recv_data_dds
+                      ${PCL_LIBRARIES}
+                      Boost::program_options
+                      ${OpenCV_LIBRARIES}
+                      cereal::cereal
+                      CycloneDDS-CXX::ddscxx)
