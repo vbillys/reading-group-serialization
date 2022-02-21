@@ -24,11 +24,12 @@ int main(int argc, char** argv)
     cnpy::npz_t npz = cnpy::npz_load(filepath);
 
     // --- Processing Normal (Numpy) Matrix
+
     auto numpyArray = npz["ht_matrix"];
     Eigen::MatrixXd eigenMat =
         Eigen::Map<Eigen::MatrixXd>(numpyArray.data<double>(), numpyArray.shape[1], numpyArray.shape[0]);
-    // need the following if the matrix is stored with C-order
-    // eigenMat.transposeInPlace();
+    // need the following if the matrix is stored with C-order (this is due Eigen is using F-order)
+    eigenMat.transposeInPlace();
     std::cout << "Numpy matrix (as Eigen matrix): " << std::endl << eigenMat << std::endl;
 
     // ---
@@ -76,13 +77,11 @@ int main(int argc, char** argv)
     const std::uint8_t r = 0, g = 255, b = 0;
     std::uint32_t rgb = ((std::uint32_t)r << 16 | (std::uint32_t)g << 8 | (std::uint32_t)b);
     for (auto i = 0; i < pointCloudArray.shape[0]; i++) {
-        // for (auto j = 0; j < pointCloudArray.shape[1]; j++) {
-            pcl::PointXYZRGB point;
-            point.x = pointCloudData[i*pointCloudArray.shape[1]];
-            point.y = pointCloudData[i*pointCloudArray.shape[1]+1];
-            point.z = pointCloudData[i*pointCloudArray.shape[1]+2];
-            point.rgb  = *reinterpret_cast<float*>(&rgb);
-        // }
+        pcl::PointXYZRGB point;
+        point.x = pointCloudData[i*pointCloudArray.shape[1]];
+        point.y = pointCloudData[i*pointCloudArray.shape[1]+1];
+        point.z = pointCloudData[i*pointCloudArray.shape[1]+2];
+        point.rgb  = *reinterpret_cast<float*>(&rgb);
         cloud->push_back(point);
     }
 

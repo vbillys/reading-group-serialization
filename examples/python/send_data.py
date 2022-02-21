@@ -16,8 +16,8 @@ from transforms3d.euler import euler2mat
 
 ht_matrix = compose([20, 30, 40], euler2mat(
     np.pi/2, np.pi/2, np.pi/2), np.ones(3), np.zeros(3))
-# store as F-order to avoid transposing on the receiver side
-ht_matrix = np.asfortranarray(ht_matrix)
+#  the following is optional store as F-order to avoid transposing on the receiver side
+# ht_matrix = np.asfortranarray(ht_matrix)
 print(f'homogeneous transformation matrix:\n{ht_matrix}')
 
 # ---
