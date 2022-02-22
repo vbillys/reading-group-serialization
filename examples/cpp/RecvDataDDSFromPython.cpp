@@ -1,4 +1,4 @@
-#include "cerealHelper.hpp"
+#include "npyHelper.hpp"
 #include <Eigen/Dense>
 #include <boost/program_options.hpp>
 #include <iostream>
@@ -24,7 +24,7 @@ static inline std::stringstream toString(const std::vector<unsigned char>& data)
     return ss;
 }
 
-void processMsg(const ExampleIdlData::Msg& msg);
+void processMsgPython(const ExampleIdlData::Msg& msg);
 
 int main(int argc, char** argv)
 {
@@ -78,7 +78,7 @@ int main(int argc, char** argv)
                     std::cout << "    userID  : " << msg.id() << std::endl;
                     std::cout << "    Message : \"" << msg.message() << "\"" << std::endl;
 
-                    processMsg(msg);
+                    processMsgPython(msg);
 
                     /* Only 1 message is expected in this example. */
                     poll = false;
@@ -94,15 +94,19 @@ int main(int argc, char** argv)
 }
 
 
-void processMsg(const ExampleIdlData::Msg& msg) {
+void processMsgPython(const ExampleIdlData::Msg& msg) {
     
     // --- Processing Normal (Numpy) Matrix
 
-    Eigen::Affine3d htMat{Eigen::Affine3d::Identity()};
     auto eigenStream = toString(msg.payloadEigen());
-    cereal::BinaryInputArchive inputArchive(eigenStream);
-    inputArchive(CEREAL_NVP(htMat));
-    std::cout << "htMat: " << std::endl << htMat.matrix() << std::endl;
+    std::vector<unsigned long> matrixShape;
+    std::vector<double> matData;
+    bool fortran_order = false;
+    npy::LoadArrayFromString(eigenStream, matrixShape, fortran_order, matData);
+    Eigen::MatrixXd eigenMat =
+        Eigen::Map<Eigen::MatrixXd>(matData.data(), matrixShape[1], matrixShape[0]);
+    eigenMat.transposeInPlace();
+    std::cout << "htMat: " << std::endl << eigenMat << std::endl;
 
     // ---
 

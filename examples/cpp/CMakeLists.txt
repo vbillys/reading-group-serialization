@@ -50,3 +50,10 @@ target_link_libraries(recv_data_dds
                       ${OpenCV_LIBRARIES}
                       cereal::cereal
                       CycloneDDS-CXX::ddscxx)
+
+add_executable(recv_data_dds_fr_python RecvDataDDSFromPython.cpp ExampleIdlData.cpp)
+target_link_libraries(recv_data_dds_fr_python
+                      ${PCL_LIBRARIES}
+                      Boost::program_options
+                      ${OpenCV_LIBRARIES}
+                      CycloneDDS-CXX::ddscxx)

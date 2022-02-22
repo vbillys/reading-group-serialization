@@ -70,6 +70,11 @@ int main(int argc, char** argv)
     ExampleIdlData::BytesArray payloadEigen = toVector(eigenStream);
 
     std::cout << "htMat: " << std::endl << htMat.matrix() << std::endl;
+    std::cout << "the payload for this matrix: " << std::endl;
+    for (const auto& c : payloadEigen) {
+        std::cout << int(c) << ",";
+    }
+    std::cout << std::endl;
 
     // ---
 

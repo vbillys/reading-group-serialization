@@ -3,12 +3,15 @@
 import cv2
 import numpy as np
 
-import sys
+import sys, time
 import os
 import io
 
 import open3d as o3d
 import argparse
+from transforms3d.affines import compose
+from transforms3d.euler import euler2mat
+
 
 from cyclonedds.domain import DomainParticipant
 from cyclonedds.pub import DataWriter
@@ -31,26 +34,20 @@ dw = DataWriter(dp, tp)
 # Create a DataReader that can receive structs on the "Hello" topic
 dr = DataReader(dp, tp)
 
-# a = np.zeros(2,dtype=np.uint8)
-# a = [0 ,0]
-
-# a = io.BytesIO()
-# sample = ExampleIdlData.Msg(1,'hi',a,a, a)
-# dw.write(sample)
-
-# Read samples from the network and print the data in the first one
-# This should print "Hello, World!"
-# sample = dr.read()[0]
-# print(sample)
-
-for sample in dr.take_iter(timeout=duration(seconds=2)):
-    print(sample)
-    data_from_dds = sample
-
-
 # --- Normal Numpy Matrix
 
-mat = np.load(io.BytesIO(bytes(data_from_dds.payloadEigen)))
-print(f"loaded Homogeneous Transformation: \n{mat}")
+ht_matrix = compose([20, 30, 40], euler2mat(
+    np.pi/2, np.pi/2, np.pi/2), np.ones(3), np.zeros(3))
+#  the following is optional store as F-order to avoid transposing on the receiver side
+# ht_matrix = np.asfortranarray(ht_matrix)
+print(f'homogeneous transformation matrix:\n{ht_matrix}')
+matStream = io.BytesIO()
+np.save(matStream, ht_matrix)
 
 # ---
+
+
+sample = ExampleIdlData.Msg(1,'hi', list(matStream.getbuffer()), [], [])
+dw.write(sample)
+
+time.sleep(1.0)
